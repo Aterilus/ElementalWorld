@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour, IDamage
 {
     [Header("---------Player Components----------")]
     [SerializeField] CharacterController controller;
+    [SerializeField] LayerMask ignoreLayer;
 
     [Header("---------Player Stats----------")]
     [SerializeField] int hp;
@@ -20,11 +21,17 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] float staminaRegenRate;
     [SerializeField] float staminaRegenDelay;
 
+    [Header("----------Player Attack----------")]
+    [SerializeField] int attackDamage;
+    [SerializeField] int attackDistance;
+    [SerializeField] float attackRate;
+
     int hpOrig;
     int jumpCount;
     int speedOrig;
     
     float currentStamina;
+    float attackTimer;
 
     Vector3 moveDir;
     Vector3 playerVel;
@@ -47,6 +54,7 @@ public class PlayerController : MonoBehaviour, IDamage
     void Update()
     {
         Movement();
+        Sprint();
     }
 
     /// <summary>
@@ -57,19 +65,25 @@ public class PlayerController : MonoBehaviour, IDamage
     /// responsive movement. The player's grounded state is used to reset jump count and vertical velocity.</remarks>
     void Movement()
     {
-        moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
-        controller.Move(moveDir * speed * Time.deltaTime);
+        attackTimer += Time.deltaTime;
 
-        Jump();
-        controller.Move(playerVel * Time.deltaTime);
-        playerVel.y -= gravity * Time.deltaTime;
         if (controller.isGrounded)
         {
             playerVel.y = 0;
             jumpCount = 0;
         }
 
-        Sprint();
+        moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+        controller.Move(moveDir * speedOrig * Time.deltaTime);
+
+        Jump();
+        controller.Move(playerVel * Time.deltaTime);
+        playerVel.y -= gravity * Time.deltaTime;
+
+        if (Input.GetButton("Fire1") && attackTimer >= attackRate)
+        {
+            Shoot();
+        }
     }
 
     /// <summary>
@@ -88,6 +102,13 @@ public class PlayerController : MonoBehaviour, IDamage
         }
     }
 
+    /// <summary>
+    /// Initiates or updates the player's sprinting state based on input and stamina.
+    /// </summary>
+    /// <remarks>Sprinting increases the player's movement speed while the sprint button is held and
+    /// sufficient stamina is available. Stamina is consumed during sprinting and regenerates after a delay when
+    /// sprinting stops or stamina is depleted. Calling this method repeatedly (typically once per frame) ensures the
+    /// sprint state and stamina are updated in real time.</remarks>
     void Sprint()
     {
         bool sprintButtonHeld = Input.GetButton("Sprint");
@@ -130,6 +151,14 @@ public class PlayerController : MonoBehaviour, IDamage
         UpdatePlayerSprintUI();
     }
 
+    /// <summary>
+    /// Waits for a specified delay, then gradually restores the player's stamina over time until it reaches the maximum
+    /// value.
+    /// </summary>
+    /// <remarks>This method is intended to be used with Unity's coroutine system. After the specified delay,
+    /// stamina is regenerated incrementally each frame until fully restored.</remarks>
+    /// <param name="delay">The time, in seconds, to wait before starting stamina regeneration. Must be non-negative.</param>
+    /// <returns>An enumerator that performs the delayed stamina recharge operation when executed in a coroutine.</returns>
     private IEnumerator RechargeStaminaAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -143,11 +172,38 @@ public class PlayerController : MonoBehaviour, IDamage
         staminaRegenCoroutine = null;
     }
 
+    /// <summary>
+    /// Updates the player's sprint UI to reflect the current stamina level.
+    /// </summary>
+    /// <remarks>This method adjusts the sprint bar's fill amount based on the player's current and maximum
+    /// stamina. Call this method after any change to the player's stamina to ensure the UI remains accurate.</remarks>
     public void UpdatePlayerSprintUI()
     {
         GameManager.instance.playerSprintBar.fillAmount = currentStamina / maxStamina;
     }
 
+    void Shoot()
+    {
+        attackTimer = 0;
+
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, attackDistance, ~ignoreLayer))
+        {
+            Debug.Log(hit.collider.name);
+            IDamage damage = hit.collider.GetComponent<IDamage>();
+            if (damage != null)
+            {
+                damage.TakeDamage(attackDamage);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Reduces the player's health points by the specified damage amount.
+    /// </summary>
+    /// <remarks>If the resulting health points are less than or equal to zero, the player is considered
+    /// defeated and the game loss sequence is triggered.</remarks>
+    /// <param name="damage">The amount of damage to subtract from the player's current health points. Must be a non-negative value.</param>
     public void TakeDamage(int damage)
     {
         hp -= damage;
