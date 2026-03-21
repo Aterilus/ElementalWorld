@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class CutSceneTrigger : MonoBehaviour
 {
-    [SerializeField] Camera cutSceneCamera;
-    [SerializeField] Camera playerCamera;
     [SerializeField] PlayerController playerController;
 
     [SerializeField] GameObject playerHPUI;
     [SerializeField] GameObject playerSprintUI;
     [SerializeField] GameObject dialoguePanel;
-    [SerializeField] TextMeshProUGUI solarisDialogue;
+    [SerializeField] TextMeshProUGUI dialogue;
 
     [SerializeField] string[] introLines;
     [SerializeField] string sceneName;
@@ -31,10 +29,8 @@ public class CutSceneTrigger : MonoBehaviour
 
     public IEnumerator StartCutSceneIntro()
     {
-        playerCamera.enabled = false;
-        playerCamera.gameObject.SetActive(false);
-        cutSceneCamera.enabled = true;
-        cutSceneCamera.gameObject.SetActive(true);
+        GameManager.instance.playerCamera.gameObject.SetActive(false);
+        GameManager.instance.cutSceneCamera.gameObject.SetActive(true);
         playerController.enabled = false;
         playerHPUI.SetActive(false);
         playerSprintUI.SetActive(false);
@@ -43,16 +39,14 @@ public class CutSceneTrigger : MonoBehaviour
 
         foreach (string line in introLines)
         {
-            solarisDialogue.text = line;
+            dialogue.text = line;
             yield return new WaitForSeconds(lineDuration);
         }
 
         dialoguePanel.SetActive(false);
 
-        playerCamera.enabled = true;
-        playerCamera.gameObject.SetActive(true);
-        cutSceneCamera.enabled = false;
-        cutSceneCamera.gameObject.SetActive(false);
+        GameManager.instance.playerCamera.gameObject.SetActive(true);
+        GameManager.instance.cutSceneCamera.gameObject.SetActive(false);
         playerController.enabled = true;
         playerHPUI.SetActive(true);
         playerSprintUI.SetActive(true);

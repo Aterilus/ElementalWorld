@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LoadNextScene : MonoBehaviour
 {
+    [SerializeField] public string sceneName;
     /// <summary>
     /// Handles the event when another collider enters the trigger area.
     /// </summary>
@@ -12,7 +13,7 @@ public class LoadNextScene : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.instance.OpenPathToSolaris();
+            GameManager.instance.LoadNextScene(sceneName);
         }
     }
 }

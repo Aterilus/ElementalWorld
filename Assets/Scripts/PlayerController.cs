@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] int attackDistance;
     [SerializeField] float attackRate;
 
+    [Header("----------Status Effects----------")]
+    [SerializeField] float blindFlashSlowAmount;
+    [SerializeField] float blindFlashDuration;
+
     int hpOrig;
     int jumpCount;
     int speedOrig;
@@ -37,6 +41,7 @@ public class PlayerController : MonoBehaviour, IDamage
     Vector3 playerVel;
 
     bool isSprinting;
+    bool isBlinded;
 
     private Coroutine staminaRegenCoroutine;
 
@@ -179,7 +184,7 @@ public class PlayerController : MonoBehaviour, IDamage
     /// stamina. Call this method after any change to the player's stamina to ensure the UI remains accurate.</remarks>
     public void UpdatePlayerSprintUI()
     {
-        GameManager.instance.playerSprintBar.fillAmount = currentStamina / maxStamina;
+        GameManager.instance.playerSprintBar.fillAmount = (float)currentStamina / maxStamina;
     }
 
     void Shoot()
@@ -189,6 +194,20 @@ public class PlayerController : MonoBehaviour, IDamage
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, attackDistance, ~ignoreLayer))
         {
+            WallOfLight wall = hit.collider.GetComponentInParent<WallOfLight>();
+            if (wall != null)
+            {
+                wall.TakeShieldDamage(attackDamage);
+
+                SolarisAI owner = wall.GetOwner();
+                if (owner != null)
+                {
+                    owner.ApplyChipDamageDuringWall(attackDamage);
+                }
+
+                return;
+            }
+
             Debug.Log(hit.collider.name);
             IDamage damage = hit.collider.GetComponent<IDamage>();
             if (damage != null)
@@ -223,5 +242,35 @@ public class PlayerController : MonoBehaviour, IDamage
     public void UpdatePlayerHPUI()
     {
         GameManager.instance.playerHPBar.fillAmount = (float)hp / hpOrig;
+    }
+
+    public void ApplyBlindFlash(float duration, float slowMultiplier)
+    {
+        StartCoroutine(BlindFlashRoutine(duration, slowMultiplier));
+    }
+
+    IEnumerator BlindFlashRoutine(float duration, float slowMultiplier)
+    {
+        if (isBlinded) { yield break; }
+
+        isBlinded = true;
+
+        float originalSpeed = speed;
+        speed = Mathf.RoundToInt(speed * slowMultiplier);
+
+        GameManager.instance.blindFlashOverlay.gameObject.SetActive(true);
+        Color overlayColor = GameManager.instance.blindFlashOverlay.color;
+        overlayColor.a = 0.75f;
+        GameManager.instance.blindFlashOverlay.color = overlayColor;
+
+        yield return new WaitForSeconds(duration);
+
+        speed = (int)originalSpeed;
+
+        overlayColor.a = 0f;
+        GameManager.instance.blindFlashOverlay.color = overlayColor;
+        GameManager.instance.blindFlashOverlay.gameObject.SetActive(false);
+
+        isBlinded = false;
     }
 }

@@ -268,9 +268,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1679048912730389968, guid: fdb6da5f094dd5a439019f4f60ca18d7, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 1405789274}
+    - target: {fileID: 1679048912730389968, guid: fdb6da5f094dd5a439019f4f60ca18d7, type: 3}
       propertyPath: sceneName
       value: SolarisFightScene
       objectReference: {fileID: 0}
+    - target: {fileID: 1679048912730389968, guid: fdb6da5f094dd5a439019f4f60ca18d7, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 2122071087}
+    - target: {fileID: 1679048912730389968, guid: fdb6da5f094dd5a439019f4f60ca18d7, type: 3}
+      propertyPath: cutSceneCamera
+      value: 
+      objectReference: {fileID: 1518253106}
     - target: {fileID: 1679048912730389968, guid: fdb6da5f094dd5a439019f4f60ca18d7, type: 3}
       propertyPath: solarisDialogue
       value: 
@@ -772,13 +784,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5f8af470f8c464e83c109a96fec829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneCamera: {fileID: 1518253106}
-  playerCamera: {fileID: 2122071087}
   playerController: {fileID: 968328421}
   playerHPUI: {fileID: 1830687192}
   playerSprintUI: {fileID: 1078007348}
   dialoguePanel: {fileID: 1405789272}
-  solarisDialogue: {fileID: 1405789274}
+  dialogue: {fileID: 1405789274}
   introLines:
   - You've come at last.
   - In order to tell you about this world
@@ -869,7 +879,7 @@ GameObject:
   - component: {fileID: 1405789275}
   - component: {fileID: 1405789274}
   m_Layer: 5
-  m_Name: SolarisDialogueBox
+  m_Name: DialogueBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,20 +11,30 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuLose;
+    
+    [SerializeField] public Camera cutSceneCamera;
+    [SerializeField] public Camera playerCamera;
 
     public GameObject player;
-    public GameObject solarisPathGate;
-
+    public GameObject playerHealthUI;
+    public GameObject playerSprintUI;
+    public GameObject PathGate;
+    public GameObject bossHPUI;
+    public GameObject bossShieldUI;
+    
+    public Image blindFlashOverlay;
     public Image playerHPBar;
     public Image playerSprintBar;
+    public Image bossHPBar;
+    public Image bossShieldBar;
 
-    public TextMeshProUGUI solarisDialogue;
+    public TextMeshProUGUI dialogue;
 
     public PlayerController playerScript;
 
     public bool isPaused;
 
-    public string sceneName;
+    string sceneName;
 
     private float timeScaleOrig;
 
@@ -99,18 +109,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Opens the path to Solaris by deactivating the gate and loading the Solaris scene.
-    /// </summary>
-    /// <remarks>This method disables the gate blocking access to Solaris and transitions the application to
-    /// the specified Solaris scene. Calling this method will immediately load the new scene, replacing the current
-    /// one.</remarks>
-    public void OpenPathToSolaris()
-    {
-        solarisPathGate.SetActive(false);
-        SceneManager.LoadScene(sceneName);
-    }
-
-    /// <summary>
     /// Displays the specified dialogue message in the Solaris dialogue UI for a limited time.
     /// </summary>
     /// <remarks>The dialogue UI will remain visible for a short duration before automatically hiding. Calling
@@ -118,8 +116,8 @@ public class GameManager : MonoBehaviour
     /// <param name="dialogueMessage">The message to display in the dialogue UI. Cannot be <c>null</c>.</param>
     public void ShowDialogue(string dialogueMessage)
     {
-        solarisDialogue.gameObject.SetActive(true);
-        solarisDialogue.text = dialogueMessage;
+        dialogue.gameObject.SetActive(true);
+        dialogue.text = dialogueMessage;
         StartCoroutine(HideDialogueAfterDelay(5f));
     }
 
@@ -131,7 +129,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator HideDialogueAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        solarisDialogue.gameObject.SetActive(false);
+        dialogue.gameObject.SetActive(false);
     }
 
     /// <summary>
