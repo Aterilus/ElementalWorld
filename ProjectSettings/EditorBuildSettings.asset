@@ -18,8 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/RefugeTown.unity
     guid: cbc25c4748bd6c147b79bc7fc439ee47
   - enabled: 1
-    path: Assets/_OpenWorld/Sscenes/OpenWorld.unity
+    path: Assets/_OpenWorld/Scenes/OpenWorld.unity
     guid: 2201db74859257646a58028e8cd6f237
+  - enabled: 1
+    path: Assets/_OpenWorld/Scenes/BullManHorde.unity
+    guid: 4c44d00ab75df2049b96ca13a40e108c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

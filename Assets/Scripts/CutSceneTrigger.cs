@@ -5,18 +5,13 @@ using UnityEngine;
 public class CutSceneTrigger : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
-
-    [SerializeField] GameObject playerHPUI;
-    [SerializeField] GameObject playerSprintUI;
-    [SerializeField] GameObject dialoguePanel;
-    [SerializeField] TextMeshProUGUI dialogue;
+    [SerializeField] Camera cutSceneCamera;
 
     [SerializeField] string[] introLines;
     [SerializeField] string sceneName;
     [SerializeField] float lineDuration;
 
     bool isTriggered;
-
 
     public void OnTriggerEnter(Collider other)
     {
@@ -29,27 +24,38 @@ public class CutSceneTrigger : MonoBehaviour
 
     public IEnumerator StartCutSceneIntro()
     {
+        if (playerController == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                playerController = playerObj.GetComponent<PlayerController>();
+            }
+        }
+
+        GameManager.instance.cutSceneCamera = cutSceneCamera;
+
         GameManager.instance.playerCamera.gameObject.SetActive(false);
         GameManager.instance.cutSceneCamera.gameObject.SetActive(true);
         playerController.enabled = false;
-        playerHPUI.SetActive(false);
-        playerSprintUI.SetActive(false);
+        GameManager.instance.playerHealthUI.SetActive(false);
+        GameManager.instance.playerSprintUI.SetActive(false);
 
-        dialoguePanel.SetActive(true);
+        GameManager.instance.dialoguePanel.SetActive(true);
 
         foreach (string line in introLines)
         {
-            dialogue.text = line;
+            GameManager.instance.dialogue.text = line;
             yield return new WaitForSeconds(lineDuration);
         }
 
-        dialoguePanel.SetActive(false);
+        GameManager.instance.dialoguePanel.SetActive(false);
 
         GameManager.instance.playerCamera.gameObject.SetActive(true);
         GameManager.instance.cutSceneCamera.gameObject.SetActive(false);
         playerController.enabled = true;
-        playerHPUI.SetActive(true);
-        playerSprintUI.SetActive(true);
+        GameManager.instance.playerHealthUI.SetActive(true);
+        GameManager.instance.playerSprintUI.SetActive(true);
 
         yield return new WaitForSeconds(lineDuration);
 

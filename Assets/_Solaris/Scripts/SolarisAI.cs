@@ -6,10 +6,12 @@ using UnityEngine;
 public class SolarisAI : MonoBehaviour, IDamage, IHeal
 {
     [SerializeField] int hp;
+    [SerializeField] int solarisEVRewards;
 
     [Header("----------References----------")]
-    public Transform player;
-    public GameObject arenaCenter;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject arenaCenter;
+    [SerializeField] Camera solarisCutSceneCamera;
 
     [Header("----------Movement----------")]
     public Transform[] teleportPoints;
@@ -115,7 +117,9 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
 
     private void Awake()
     {
+        GameManager.instance.bossHPUI.gameObject.SetActive(true);
         if (wallOfLight != null) { wallOfLight.OnShieldBroken += OnWallBroken; }
+        if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -217,7 +221,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
     public void Heal(float healAmount)
     {
         hp = Mathf.Min(hp, hpOrig);
-        //hp += Mathf.RoundToInt(healAmount);
         UpdateHPUI();
 
         if (hp > hpOrig)
@@ -302,7 +305,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
 
             Vector3 offset = new Vector3(randX, 0f, randZ);
 
-            Vector3 spawnPos = player.position + offset;
+            Vector3 spawnPos = player.transform.position + offset;
 
             RaycastHit hit;
             if (Physics.Raycast(spawnPos + Vector3.up * 5f, Vector3.down, out hit, 10f))
@@ -327,7 +330,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
 
         while (timer < beamDuration)
         {
-            Vector3 dire = (player.position - beamSpawnPoint.position).normalized;
+            Vector3 dire = (player.transform.position - beamSpawnPoint.position).normalized;
             Quaternion targetRot = Quaternion.LookRotation(dire);
 
             beamSpawnPoint.rotation = Quaternion.Lerp(beamSpawnPoint.rotation, targetRot, beamTurnSpeed * Time.deltaTime);
@@ -483,6 +486,11 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
             phaseRoutine = null;
         }
 
+        PlayerEVSystem playerEV = player.gameObject.GetComponent<PlayerEVSystem>();
+        if (playerEV != null)
+        {
+            playerEV.GiveEvPoints(solarisEVRewards);
+        }
         StopAllCoroutines();
         StartCoroutine(StartSolarisDefeatCutScene());
     }
@@ -494,6 +502,8 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
 
     IEnumerator StartSolarisDefeatCutScene()
     {
+        GameManager.instance.cutSceneCamera = solarisCutSceneCamera;
+
         GameManager.instance.bossHPUI.SetActive(false);
         GameManager.instance.bossHPBar.gameObject.SetActive(false);
         GameManager.instance.playerCamera.gameObject.SetActive(false);
@@ -520,6 +530,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
 
             GameManager.instance.dialogue.text = "";
             GameManager.instance.dialogue.gameObject.SetActive(false);
+            playerControls.enabled = true;
         }
 
         GameManager.instance.cutSceneCamera.gameObject.SetActive(false);
@@ -602,7 +613,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
 
             if (daggerPrefab != null && daggerAttackCooldown <= 0)
             {
-                FireDagger(player);
+                FireDagger(player.transform);
             }
 
             yield return new WaitForSeconds(daggerDelayMaxTimer);

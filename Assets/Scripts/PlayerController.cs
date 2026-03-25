@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IDamage
 {
@@ -8,23 +9,25 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] LayerMask ignoreLayer;
 
     [Header("---------Player Stats----------")]
-    [SerializeField] int hp;
-    [SerializeField] int speed;
+    [SerializeField] public int hp;
+    [SerializeField] public int speed;
     [SerializeField] int jumpSpeed;
     [SerializeField] int jumpMaxTimes;
     [SerializeField] int gravity;
+    [SerializeField] public int defense;
 
     [Header("---------Player Sprint & Stamina----------")]
     [SerializeField] int sprintMod;
-    [SerializeField] int maxStamina;
+    [SerializeField] public int maxStamina;
     [SerializeField] float staminaDrainRate;
     [SerializeField] float staminaRegenRate;
     [SerializeField] float staminaRegenDelay;
 
     [Header("----------Player Attack----------")]
-    [SerializeField] int attackDamage;
+    [SerializeField] public int attackDamage;
     [SerializeField] int attackDistance;
     [SerializeField] float attackRate;
+    [SerializeField] float combatDuration;
 
     [Header("----------Status Effects----------")]
     [SerializeField] float blindFlashSlowAmount;
@@ -35,15 +38,22 @@ public class PlayerController : MonoBehaviour, IDamage
     int speedOrig;
     
     float currentStamina;
+    float combatTimer;
     float attackTimer;
 
     Vector3 moveDir;
     Vector3 playerVel;
 
     bool isSprinting;
+    bool isInCombat;
     bool isBlinded;
 
     private Coroutine staminaRegenCoroutine;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
 
     void Start()
     {
@@ -60,6 +70,8 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         Movement();
         Sprint();
+        HandleSprintUI();
+        HandleCombatState();
     }
 
     /// <summary>
@@ -225,12 +237,19 @@ public class PlayerController : MonoBehaviour, IDamage
     /// <param name="damage">The amount of damage to subtract from the player's current health points. Must be a non-negative value.</param>
     public void TakeDamage(int damage)
     {
+        isInCombat = true;
+        combatTimer = combatDuration;
+
         hp -= damage;
         UpdatePlayerHPUI();
 
         if (hp <= 0)
         {
-            GameManager.instance.Lose();
+            if (SceneManager.GetActiveScene().name == "BullManHorde")
+            {
+                GameManager.instance.LoadNextScene("OpenWorld");
+                GameManager.instance.Lose();
+            }
         }
     }
 
@@ -242,6 +261,33 @@ public class PlayerController : MonoBehaviour, IDamage
     public void UpdatePlayerHPUI()
     {
         GameManager.instance.playerHPBar.fillAmount = (float)hp / hpOrig;
+    }
+
+    void HandleCombatState()
+    {
+        if (isInCombat)
+        {
+            combatTimer -= Time.deltaTime;
+
+            if (combatTimer <= 0)
+            {
+                isInCombat= false;
+            }
+        }
+
+        GameManager.instance.playerHealthUI.SetActive(isInCombat);
+    }
+
+    void HandleSprintUI()
+    {
+        if (isSprinting || currentStamina < maxStamina)
+        {
+            GameManager.instance.playerSprintUI.SetActive(true);
+        }
+        else
+        {
+            GameManager.instance.playerSprintUI.SetActive(false);
+        }
     }
 
     public void ApplyBlindFlash(float duration, float slowMultiplier)

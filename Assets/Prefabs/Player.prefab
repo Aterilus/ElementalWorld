@@ -165,11 +165,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3250854858918854500}
   - component: {fileID: 2830301096044407473}
+  - component: {fileID: 4197586345268514836}
+  - component: {fileID: 5124976259173323698}
   - component: {fileID: 3035570338407356380}
   - component: {fileID: 2440051723373710645}
   - component: {fileID: 7156965435705137380}
-  - component: {fileID: 5124976259173323698}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -205,16 +206,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 3035570338407356380}
-  hp: 65
-  speed: 8
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  hp: 150
+  speed: 15
   jumpSpeed: 12
   jumpMaxTimes: 2
   gravity: 40
+  defense: 15
   sprintMod: 2
   maxStamina: 20
   staminaDrainRate: 5
   staminaRegenRate: 4
   staminaRegenDelay: 1.25
+  attackDamage: 10
+  attackDistance: 25
+  attackRate: 0.25
+  combatDuration: 10
+  blindFlashSlowAmount: 2.5
+  blindFlashDuration: 5
+--- !u!114 &4197586345268514836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8425443613744061500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23437b1825951554bbff0d07c4325dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 2830301096044407473}
+  currentEVPoints: 0
+  healthEV: 0
+  attackEV: 0
+  defenseEV: 0
+  speedEV: 0
+  staminaEV: 0
+  evPointsText: {fileID: 0}
+  healthEVText: {fileID: 0}
+  attackEVText: {fileID: 0}
+  defenseEVText: {fileID: 0}
+  speedEVText: {fileID: 0}
+  staminaEVText: {fileID: 0}
+--- !u!136 &5124976259173323698
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8425443613744061500}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &3035570338407356380
 CharacterController:
   m_ObjectHideFlags: 0
@@ -293,26 +352,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5124976259173323698
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8425443613744061500}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

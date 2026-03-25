@@ -11,11 +11,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject menuEV;
     
     [SerializeField] public Camera cutSceneCamera;
     [SerializeField] public Camera playerCamera;
 
+    public GameObject uiRoot;
     public GameObject player;
+    public GameObject dialoguePanel;
     public GameObject playerHealthUI;
     public GameObject playerSprintUI;
     public GameObject PathGate;
@@ -31,8 +34,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI dialogue;
 
     public PlayerController playerScript;
+    public PlayerEVSystem playerEVSystem;
 
     public bool isPaused;
+    public bool isEVMenuOpen;
+    public bool bullManCompleted;
 
     string sceneName;
 
@@ -40,7 +46,19 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (playerCamera == null)
+        {
+            playerCamera = player.GetComponentInChildren<Camera>(true);
+        }
+
         instance = this;
+        DontDestroyOnLoad(uiRoot.gameObject);
 
         timeScaleOrig = Time.timeScale;
 
@@ -64,6 +82,21 @@ public class GameManager : MonoBehaviour
                 UnPaused();
             }
         }
+
+        if (Input.GetButtonDown("Submit"))
+        {
+            ToggleEVMenu();
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoad;
     }
 
     /// <summary>
@@ -108,6 +141,44 @@ public class GameManager : MonoBehaviour
         menuActive.SetActive(true);
     }
 
+    public void ToggleEVMenu()
+    {
+        if (isEVMenuOpen == false)
+        {
+            ShowEVMenu();
+        }
+        else
+        {
+            HideEVMenu();
+        }
+    }
+
+    public void ShowEVMenu()
+    {
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        isEVMenuOpen = true;
+
+        menuActive = menuEV;
+        menuActive.SetActive(true);
+
+        playerEVSystem.UpdateEVUI();
+    }
+
+    public void HideEVMenu()
+    {
+        Time.timeScale = timeScaleOrig;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        isEVMenuOpen = false;
+
+        menuActive.SetActive(false);
+        menuActive = null;
+    }
+
     /// <summary>
     /// Displays the specified dialogue message in the Solaris dialogue UI for a limited time.
     /// </summary>
@@ -141,5 +212,31 @@ public class GameManager : MonoBehaviour
     public void LoadNextScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    void OnSceneLoad(Scene sceneName, LoadSceneMode mode)
+    {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+        
+        GameObject spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
+        if (spawnPoint != null)
+        {
+            CharacterController controller = player.GetComponent<CharacterController>();
+            if (controller != null)
+            {
+                controller.enabled = false;
+                player.transform.position = spawnPoint.transform.position;
+                player.transform.rotation = spawnPoint.transform.rotation;
+                controller.enabled = true;
+            }
+            else
+            {
+                player.transform.position = spawnPoint.transform.position;
+                player.transform.rotation = spawnPoint.transform.rotation;
+            }
+        }
     }
 }
