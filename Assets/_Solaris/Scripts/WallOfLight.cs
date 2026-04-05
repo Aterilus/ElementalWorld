@@ -37,7 +37,7 @@ public class WallOfLight : MonoBehaviour
 
         if (solaris != null)
         {
-            solaris.Heal(healPerSecond * Time.deltaTime);
+            solaris.Heal((int)(healPerSecond * Time.deltaTime));
         }
     }
 

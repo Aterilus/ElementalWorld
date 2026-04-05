@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour, IDamage
+public class PlayerController : MonoBehaviour, IDamage, IHeal
 {
     [Header("---------Player Components----------")]
     [SerializeField] CharacterController controller;
@@ -250,6 +250,19 @@ public class PlayerController : MonoBehaviour, IDamage
                 GameManager.instance.LoadNextScene("OpenWorld");
                 GameManager.instance.Lose();
             }
+        }
+    }
+
+    public void Heal(int healAmount)
+    {
+        isInCombat = true;
+
+        hp += healAmount;
+        UpdatePlayerHPUI();
+
+        if (hp >= hpOrig)
+        {
+            hp = hpOrig;
         }
     }
 

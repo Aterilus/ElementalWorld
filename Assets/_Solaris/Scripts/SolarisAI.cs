@@ -218,7 +218,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
         }
     }
 
-    public void Heal(float healAmount)
+    public void Heal(int healAmount)
     {
         hp = Mathf.Min(hp, hpOrig);
         UpdateHPUI();
@@ -505,7 +505,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal
         GameManager.instance.cutSceneCamera = solarisCutSceneCamera;
 
         GameManager.instance.bossHPUI.SetActive(false);
-        GameManager.instance.bossHPBar.gameObject.SetActive(false);
         GameManager.instance.playerCamera.gameObject.SetActive(false);
         GameManager.instance.cutSceneCamera.gameObject.SetActive(true);
         GameManager.instance.playerHealthUI.gameObject.SetActive(false);
