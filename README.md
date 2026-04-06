@@ -109,6 +109,38 @@ This project focuses on building core gameplay systems first (Version 1), using 
 - Spawn point adjustments for better ground alignment
 
 ---
+Wind Boss
+
+The Wind Boss is the second major boss encounter, expanding on the core boss system with a more chaotic and ability-driven combat style.
+
+Features
+	•	Dynamic attack loop system (no fixed phases)
+	•	Randomized ability selection from a move pool
+	•	Cinematic intro sequence (boss descends from sky)
+	•	Death cutscene with dialogue and UI transitions
+	•	Fully modular ability system using WindAbilityPack
+
+Implemented Abilities
+	•	Cyclone
+	•	Hurricane Strike
+	•	Hurricane Slam
+	•	Air Blade
+	•	Wind Current
+	•	Sky Lift
+	•	Eye of the Storm
+	•	Phantom Gust
+
+Technical Highlights
+	•	Coroutine-based attack execution for smooth chaining
+	•	Ability modularization via separate Ability Pack
+	•	Reusable combat interfaces (IDamage)
+	•	Integrated UI + camera control through GameManager
+	•	Fixed coroutine restart bug in death sequence
+
+Notes
+	•	Uses placeholder visuals for all abilities (primitive shapes)
+	•	Final visual polish will be implemented during the Blender phase
+---
 
 # Future Development (Version 2)
 
