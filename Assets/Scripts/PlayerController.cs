@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour, IDamage, IHeal
+public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
 {
     [Header("---------Player Components----------")]
     [SerializeField] CharacterController controller;
@@ -33,6 +33,9 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
     [SerializeField] float blindFlashSlowAmount;
     [SerializeField] float blindFlashDuration;
 
+    [Header("----------Knockback----------")]
+    [SerializeField] float knockbackDecay;
+
     int hpOrig;
     int jumpCount;
     int speedOrig;
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
 
     Vector3 moveDir;
     Vector3 playerVel;
+    Vector3 knockbackVelocity;
 
     bool isSprinting;
     bool isInCombat;
@@ -83,6 +87,16 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
     void Movement()
     {
         attackTimer += Time.deltaTime;
+
+        if (knockbackVelocity.magnitude > 0.1f)
+        {
+            controller.Move(knockbackVelocity * Time.deltaTime);
+            knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, knockbackDecay * Time.deltaTime);
+        }
+        else 
+        {
+            knockbackVelocity = Vector3.zero;
+        }
 
         if (controller.isGrounded)
         {
@@ -196,9 +210,13 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
     /// stamina. Call this method after any change to the player's stamina to ensure the UI remains accurate.</remarks>
     public void UpdatePlayerSprintUI()
     {
-        GameManager.instance.playerSprintBar.fillAmount = (float)currentStamina / maxStamina;
+        UIManager.instance.playerSprintBar.fillAmount = (float)currentStamina / maxStamina;
     }
 
+    /// <summary>
+    /// Performs a raycast from the camera's position forward to detect hits within the attack distance. If a hit is detected,
+    /// the appropriate damage or effect is applied to the target.
+    /// </summary>
     void Shoot()
     {
         attackTimer = 0;
@@ -247,7 +265,7 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
         {
             if (SceneManager.GetActiveScene().name == "BullManHorde")
             {
-                GameManager.instance.LoadNextScene("OpenWorld");
+                SceneFlowManager.instance.LoadNextScene("OpenWorld");
                 GameManager.instance.Lose();
             }
         }
@@ -273,9 +291,13 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
     /// method after modifying the player's health to ensure the UI remains accurate.</remarks>
     public void UpdatePlayerHPUI()
     {
-        GameManager.instance.playerHPBar.fillAmount = (float)hp / hpOrig;
+        UIManager.instance.playerHPBar.fillAmount = (float)hp / hpOrig;
     }
 
+    /// <summary>
+    /// Manages the player's combat state by tracking a timer that resets when the player takes damage or heals. If the timer
+    /// reaches zero, the player is considered out of combat.
+    /// </summary>
     void HandleCombatState()
     {
         if (isInCombat)
@@ -288,26 +310,52 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
             }
         }
 
-        GameManager.instance.playerHealthUI.SetActive(isInCombat);
+        UIManager.instance.playerHealthUI.SetActive(isInCombat);
     }
 
+    /// <summary>
+    /// Controls the visibility of the player's sprint UI based on whether the player is currently sprinting or has less than maximum stamina.
+    /// </summary>
     void HandleSprintUI()
     {
         if (isSprinting || currentStamina < maxStamina)
         {
-            GameManager.instance.playerSprintUI.SetActive(true);
+            UIManager.instance.playerSprintUI.SetActive(true);
         }
         else
         {
-            GameManager.instance.playerSprintUI.SetActive(false);
+            UIManager.instance.playerSprintUI.SetActive(false);
         }
     }
 
+    /// <summary>
+    /// Applies a knockback effect to the player by setting a velocity in the specified direction and magnitude, which will
+    /// be applied over the next physics update.
+    /// </summary>
+    /// <param name="direction">The direction in which to apply the knockback. The y-component will be ignored.</param>
+    /// <param name="force">The magnitude of the knockback force.</param>
+    public void ApplyKnockback(Vector3 direction, float force)
+    {
+        direction.y = 0;
+        knockbackVelocity = direction.normalized * force;
+    }
+
+    /// <summary>
+    /// Applies a blind flash effect to the player, reducing movement speed and displaying an overlay for a specified duration.
+    /// </summary>
+    /// <param name="duration">The duration of the blind flash effect in seconds.</param>
+    /// <param name="slowMultiplier">The multiplier to apply to the player's speed during the blind flash effect.</param>
     public void ApplyBlindFlash(float duration, float slowMultiplier)
     {
         StartCoroutine(BlindFlashRoutine(duration, slowMultiplier));
     }
 
+    /// <summary>
+    /// Applies a blind flash effect to the player, reducing movement speed and displaying an overlay for a specified duration.
+    /// </summary>
+    /// <param name="duration">The duration of the blind flash effect in seconds.</param>
+    /// <param name="slowMultiplier">The multiplier to apply to the player's speed during the blind flash effect.</param>
+    /// <returns></returns>
     IEnumerator BlindFlashRoutine(float duration, float slowMultiplier)
     {
         if (isBlinded) { yield break; }
@@ -317,18 +365,18 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal
         float originalSpeed = speed;
         speed = Mathf.RoundToInt(speed * slowMultiplier);
 
-        GameManager.instance.blindFlashOverlay.gameObject.SetActive(true);
-        Color overlayColor = GameManager.instance.blindFlashOverlay.color;
+        UIManager.instance.blindFlashOverlay.gameObject.SetActive(true);
+        Color overlayColor = UIManager.instance.blindFlashOverlay.color;
         overlayColor.a = 0.75f;
-        GameManager.instance.blindFlashOverlay.color = overlayColor;
+        UIManager.instance.blindFlashOverlay.color = overlayColor;
 
         yield return new WaitForSeconds(duration);
 
         speed = (int)originalSpeed;
 
         overlayColor.a = 0f;
-        GameManager.instance.blindFlashOverlay.color = overlayColor;
-        GameManager.instance.blindFlashOverlay.gameObject.SetActive(false);
+        UIManager.instance.blindFlashOverlay.color = overlayColor;
+        UIManager.instance.blindFlashOverlay.gameObject.SetActive(false);
 
         isBlinded = false;
     }

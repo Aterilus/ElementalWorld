@@ -11,7 +11,7 @@ public class DialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player") && !isTriggered)
         {
             isTriggered = true;
-            GameManager.instance.ShowDialogue(dialogueName);
+            UIManager.instance.ShowDialogue(dialogueName);
         }
     }
 }

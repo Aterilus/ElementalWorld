@@ -13,26 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuEV;
     
-    [SerializeField] public Camera cutSceneCamera;
-    [SerializeField] public Camera playerCamera;
-
     public GameObject uiRoot;
     public GameObject player;
-    public GameObject dialoguePanel;
-    public GameObject playerHealthUI;
-    public GameObject playerSprintUI;
-    public GameObject PathGate;
-    public GameObject bossHPUI;
-    public GameObject bossShieldUI;
     
-    public Image blindFlashOverlay;
-    public Image playerHPBar;
-    public Image playerSprintBar;
-    public Image bossHPBar;
-    public Image bossShieldBar;
-
-    public TextMeshProUGUI dialogue;
-
     public PlayerController playerScript;
     public PlayerEVSystem playerEVSystem;
 
@@ -50,11 +33,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
             return;
-        }
-
-        if (playerCamera == null)
-        {
-            playerCamera = player.GetComponentInChildren<Camera>(true);
         }
 
         instance = this;
@@ -88,17 +66,7 @@ public class GameManager : MonoBehaviour
             ToggleEVMenu();
         }
     }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoad;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoad;
-    }
-
+        
     /// <summary>
     /// Pauses the game by halting time progression and enabling the cursor.
     /// </summary>
@@ -179,64 +147,4 @@ public class GameManager : MonoBehaviour
         menuActive = null;
     }
 
-    /// <summary>
-    /// Displays the specified dialogue message in the Solaris dialogue UI for a limited time.
-    /// </summary>
-    /// <remarks>The dialogue UI will remain visible for a short duration before automatically hiding. Calling
-    /// this method while a previous message is still visible will replace the displayed message.</remarks>
-    /// <param name="dialogueMessage">The message to display in the dialogue UI. Cannot be <c>null</c>.</param>
-    public void ShowDialogue(string dialogueMessage)
-    {
-        dialogue.gameObject.SetActive(true);
-        dialogue.text = dialogueMessage;
-        StartCoroutine(HideDialogueAfterDelay(5f));
-    }
-
-    /// <summary>
-    /// Waits for the specified delay before hiding the dialogue UI.
-    /// </summary>
-    /// <param name="delay">The time, in seconds, to wait before the dialogue is hidden. Must be non-negative.</param>
-    /// <returns>An enumerator that yields until the delay has elapsed, after which the dialogue UI is hidden.</returns>
-    private IEnumerator HideDialogueAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        dialogue.gameObject.SetActive(false);
-    }
-
-    /// <summary>
-    /// Loads the specified scene by name.
-    /// </summary>
-    /// <remarks>Loading a new scene will replace the current scene. Ensure that any unsaved data is handled
-    /// before calling this method.</remarks>
-    /// <param name="sceneName">The name of the scene to load. Must correspond to a scene included in the build settings.</param>
-    public void LoadNextScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
-
-    void OnSceneLoad(Scene sceneName, LoadSceneMode mode)
-    {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-        
-        GameObject spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
-        if (spawnPoint != null)
-        {
-            CharacterController controller = player.GetComponent<CharacterController>();
-            if (controller != null)
-            {
-                controller.enabled = false;
-                player.transform.position = spawnPoint.transform.position;
-                player.transform.rotation = spawnPoint.transform.rotation;
-                controller.enabled = true;
-            }
-            else
-            {
-                player.transform.position = spawnPoint.transform.position;
-                player.transform.rotation = spawnPoint.transform.rotation;
-            }
-        }
-    }
 }

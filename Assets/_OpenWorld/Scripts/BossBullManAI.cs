@@ -34,6 +34,7 @@ public class BossBullManAI : MonoBehaviour, IDamage
     void Start()
     {
         hpOrig = hp;
+        UpdateHPUI();
     }
 
     // Update is called once per frame
@@ -147,7 +148,7 @@ public class BossBullManAI : MonoBehaviour, IDamage
 
         if (hp <= 0)
         {
-            GameManager.instance.bossHPUI.gameObject.SetActive(false);
+            UIManager.instance.bossHPUI.gameObject.SetActive(false);
 
             if (hordeManager != null)
             {
@@ -160,6 +161,6 @@ public class BossBullManAI : MonoBehaviour, IDamage
 
     public void UpdateHPUI()
     {
-        GameManager.instance.bossHPBar.fillAmount = (float)hp / hpOrig;
+        UIManager.instance.bossHPBar.fillAmount = (float)hp / hpOrig;
     }
 }

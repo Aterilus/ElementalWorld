@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class HurricaneSlam : MonoBehaviour
 {
-    [SerializeField] GameObject slamVisuals;
-    [SerializeField] float slamDelay;
-    [SerializeField] float slamRadius;
+    private GameObject slamVisuals;
+    private float slamDelay;
+    private float slamRadius;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

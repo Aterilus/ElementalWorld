@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class WindAirBlade : MonoBehaviour
 {
-    [SerializeField] int damageAmount;
-    [SerializeField] float moveSpeed;
-    [SerializeField] float lifeTime;
+    private int damageAmount;
+    private float moveSpeed;
+    private float lifeTime;
 
     Vector3 moveDire;
 
@@ -18,6 +18,13 @@ public class WindAirBlade : MonoBehaviour
         transform.position += moveDire * moveSpeed * Time.deltaTime;
     }
 
+    /// <summary>
+    /// Initializes the air blade with the given parameters. Must be called immediately after instantiating the air blade prefab.
+    /// </summary>
+    /// <param name="dire">The direction in which the air blade will move.</param>
+    /// <param name="speedd">The speed at which the air blade will move.</param>
+    /// <param name="damageeAmount">The amount of damage the air blade will deal upon hitting the player.</param>
+    /// <param name="lifeeTime">The lifetime of the air blade before it is automatically destroyed.</param>
     public void Initialize(Vector3 dire, float speedd, int damageeAmount, float lifeeTime)
     {
         moveDire = dire;

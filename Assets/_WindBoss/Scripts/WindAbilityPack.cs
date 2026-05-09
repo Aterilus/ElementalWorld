@@ -78,6 +78,12 @@ public class WindAbilityPack : MonoBehaviour
     [SerializeField] float phantomGustLifeTime;
     [SerializeField] Transform[] phantomGustSpawnPoints;
 
+    /// <summary>
+    /// Casts the Cyclone ability, which spawns a cyclone projectile that moves in a direction based on the target's position relative to the caster. The cyclone deals damage to the player if they come into contact with it. After casting, there is a recovery time before the boss can act again.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <param name="target">The transform of the target affected by the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastCyclone(Transform caster, Transform target)
     {
         if (cyclonePrefab == null || caster == null || target == null) { yield break; }
@@ -105,6 +111,11 @@ public class WindAbilityPack : MonoBehaviour
         yield return new WaitForSeconds(cyloneCastRecovery);
     }
 
+    /// <summary>
+    /// Casts the Hurricane Strike ability, which spawns multiple strike projectiles that shoot out in different directions from the caster. Each strike moves forward, dealing damage to the player if they come into contact. After casting, there is a recovery time before the boss can act again.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastHurricaneStrike(Transform caster)
     {
         if (hurricaneStrikePrefab == null || caster == null) { yield break; }
@@ -143,6 +154,12 @@ public class WindAbilityPack : MonoBehaviour
         yield return new WaitForSeconds(hurricaneCastRecovery);
     }
 
+    /// <summary>
+    /// Casts the Hurricane Slam ability, which causes the caster to rise into the air and then slam down at the target location, dealing damage and knockback to the player if they are within the radius. The ability has a rise time, hang time, drop time, and recovery time before the boss can act again.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <param name="target">The transform of the target affected by the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastHurricaneSlam(Transform caster, Transform target)
     {
         if (caster == null) { yield break; }
@@ -221,6 +238,11 @@ public class WindAbilityPack : MonoBehaviour
         yield return new WaitForSeconds(hurricaneSlamRecoveryTime);
     }
 
+    /// <summary>
+    /// Casts the Air Blade ability, which spawns multiple blade projectiles that shoot out in different directions from the caster. Each blade moves forward, dealing damage to the player if they come into contact. After casting, there is a recovery time before the boss can act again.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastAirBlade(Transform caster)
     {
         if (caster == null || airBladePrefab == null) { yield break; }
@@ -252,6 +274,12 @@ public class WindAbilityPack : MonoBehaviour
         yield return new WaitForSeconds(airBladeCastRecovery);
     }
 
+    /// <summary>
+    /// Casts the Wind Current ability, which creates a gust of wind that pushes the player in a random cardinal direction (forward, backward, left, or right relative to the caster) for a duration. The gust does not deal damage but can disrupt the player's movement. After the gust ends, there is a recovery time before the boss can act again.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <param name="target">The transform of the target affected by the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastWindCurrent(Transform caster, Transform target)
     {
         if (caster == null || target == null) { yield break; }
@@ -295,6 +323,12 @@ public class WindAbilityPack : MonoBehaviour
         yield return new WaitForSeconds(windCurrentCastRecovery);
     }
 
+    /// <summary>
+    /// Casts the Sky Lift ability, which creates a lifting area at the target location that lifts the player if they are within the radius. The lift lasts for a duration, and after it ends there is a recovery time before the boss can act again.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <param name="target">The transform of the target affected by the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastSkyLift(Transform caster, Transform target)
     {
         if (caster == null || target == null) { yield break; }
@@ -328,6 +362,12 @@ public class WindAbilityPack : MonoBehaviour
         yield return new WaitForSeconds(skyLiftCastRecovery);
     }
 
+    /// <summary>
+    /// Casts the Eye of the Storm ability, which creates a damaging storm at the target location that lifts the player if they are within the radius. The storm lasts for a duration and periodically damages the player if they remain within the area. After the storm ends, there is a recovery time before the boss can act again.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <param name="target">The transform of the target affected by the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastEyeOfTheStorm(Transform caster, Transform target)
     {
         if (caster == null || target == null) { yield break; }
@@ -378,6 +418,12 @@ public class WindAbilityPack : MonoBehaviour
 
         yield return new WaitForSeconds(eyeOfTheStormCastRecovery);
     }
+
+    /// <summary>
+    /// Casts the Phantom Gust ability, which spawns warning indicators at predefined locations, then after a delay, spawns gust attacks that move in the direction of the spawn points. The gusts deal damage to the player if they come into contact.
+    /// </summary>
+    /// <param name="caster">The transform of the entity casting the ability.</param>
+    /// <returns>An IEnumerator for coroutine handling.</returns>
     public IEnumerator CastPhantomGust(Transform caster)
     {
         if (caster == null || phantomGustAttackPrefab == null || phantomGustWarningPrefab == null || phantomGustSpawnPoints == null || phantomGustSpawnPoints.Length == 0) { yield break; }

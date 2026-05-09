@@ -32,7 +32,7 @@ public class BullManHorde : MonoBehaviour
     {
         if (cutSceneCamera != null)
         {
-            GameManager.instance.cutSceneCamera = cutSceneCamera;
+            SceneFlowManager.instance.cutSceneCamera = cutSceneCamera;
         }
 
         if (exitGate != null)
@@ -76,25 +76,25 @@ public class BullManHorde : MonoBehaviour
             bossAgent.enabled = false;
         }
 
-        GameManager.instance.playerCamera.gameObject.SetActive(false);
-        GameManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
 
-        GameManager.instance.dialoguePanel.gameObject.SetActive(true);
-        GameManager.instance.dialogue.text = "You've stumbled upon my domain.";
-
-        yield return new WaitForSeconds(3f);
-
-        GameManager.instance.dialogue.text = "My children will eat you alive.";
+        UIManager.instance.dialoguePanel.gameObject.SetActive(true);
+        UIManager.instance.dialogue.text = "You've stumbled upon my domain.";
 
         yield return new WaitForSeconds(3f);
 
-        GameManager.instance.dialogue.text = "Get ready to die....";
+        UIManager.instance.dialogue.text = "My children will eat you alive.";
 
         yield return new WaitForSeconds(3f);
 
-        GameManager.instance.dialoguePanel.gameObject.SetActive(false);
-        GameManager.instance.cutSceneCamera.gameObject.SetActive(false);
-        GameManager.instance.playerCamera.gameObject.SetActive(true);
+        UIManager.instance.dialogue.text = "Get ready to die....";
+
+        yield return new WaitForSeconds(3f);
+
+        UIManager.instance.dialoguePanel.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         playerController.enabled = true;
 
         bossBullManPrefab.SetActive(false);
@@ -166,8 +166,8 @@ public class BullManHorde : MonoBehaviour
         }
 
         playerController.enabled = false;
-        GameManager.instance.playerCamera.gameObject.SetActive(false);
-        GameManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
 
         bossBullManPrefab.transform.position = bossSpawnPoint.position;
         bossBullManPrefab.SetActive(true);
@@ -179,17 +179,17 @@ public class BullManHorde : MonoBehaviour
             bossAI.enabled = true;
         }
 
-        GameManager.instance.dialoguePanel.gameObject.SetActive(true);
-        GameManager.instance.dialogue.text = "You've managed to defeat my children.";
+        UIManager.instance.dialoguePanel.gameObject.SetActive(true);
+        UIManager.instance.dialogue.text = "You've managed to defeat my children.";
         yield return new WaitForSeconds(3f);
-        GameManager.instance.dialogue.text = "Now get ready to taste defeat.";
+        UIManager.instance.dialogue.text = "Now get ready to taste defeat.";
         yield return new WaitForSeconds(3f);
-        GameManager.instance.dialogue.text = "Die human!!!!";
+        UIManager.instance.dialogue.text = "Die human!!!!";
         yield return new WaitForSeconds(3f);
 
-        GameManager.instance.dialoguePanel.gameObject.SetActive(false);
-        GameManager.instance.cutSceneCamera.gameObject.SetActive(false);
-        GameManager.instance.playerCamera.gameObject.SetActive(true);
+        UIManager.instance.dialoguePanel.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         playerController.enabled = true;
 
         NavMeshAgent bossAgent = bossBullManPrefab.GetComponent<NavMeshAgent>();
@@ -198,7 +198,7 @@ public class BullManHorde : MonoBehaviour
             bossAgent.enabled = true;
         }
 
-        GameManager.instance.bossHPUI.gameObject.SetActive(true);
+        UIManager.instance.bossHPUI.gameObject.SetActive(true);
 
         enemiesAlive = 1;
         bossSpawned = true;
@@ -208,7 +208,7 @@ public class BullManHorde : MonoBehaviour
     {
         eventCompleted = true;
 
-        GameManager.instance.bossHPUI.gameObject.SetActive(false);
+        UIManager.instance.bossHPUI.gameObject.SetActive(false);
 
         if (exitGate != null)
         {

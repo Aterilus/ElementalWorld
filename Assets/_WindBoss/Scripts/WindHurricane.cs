@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class WindHurricane : MonoBehaviour
 {
-    [SerializeField] int damageAmount;
-    [SerializeField] float speed;
-    [SerializeField] float lifeTime;
+    private int damageAmount;
+    private float speed;
+    private float lifeTime;
 
     Vector3 moveDire;
 
@@ -34,6 +34,13 @@ public class WindHurricane : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes the hurricane with the given parameters. Must be called immediately after instantiating the hurricane prefab.
+    /// </summary>
+    /// <param name="dire">The direction in which the hurricane will move.</param>
+    /// <param name="speedd">The speed at which the hurricane will move.</param>
+    /// <param name="damageeAmount">The amount of damage the hurricane will deal upon hitting the player.</param>
+    /// <param name="lifeeTime">The lifetime of the hurricane before it is automatically destroyed.</param>
     public void Initialize(Vector3 dire, float speedd, int damageeAmount, float lifeeTime)
     {
         moveDire = dire;

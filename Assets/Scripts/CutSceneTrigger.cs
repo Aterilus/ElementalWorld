@@ -33,32 +33,32 @@ public class CutSceneTrigger : MonoBehaviour
             }
         }
 
-        GameManager.instance.cutSceneCamera = cutSceneCamera;
+        SceneFlowManager.instance.cutSceneCamera = cutSceneCamera;
 
-        GameManager.instance.playerCamera.gameObject.SetActive(false);
-        GameManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
         playerController.enabled = false;
-        GameManager.instance.playerHealthUI.SetActive(false);
-        GameManager.instance.playerSprintUI.SetActive(false);
+        UIManager.instance.playerHealthUI.SetActive(false);
+        UIManager.instance.playerSprintUI.SetActive(false);
 
-        GameManager.instance.dialoguePanel.SetActive(true);
+        UIManager.instance.dialoguePanel.SetActive(true);
 
         foreach (string line in introLines)
         {
-            GameManager.instance.dialogue.text = line;
+            UIManager.instance.dialogue.text = line;
             yield return new WaitForSeconds(lineDuration);
         }
 
-        GameManager.instance.dialoguePanel.SetActive(false);
+        UIManager.instance.dialoguePanel.SetActive(false);
 
-        GameManager.instance.playerCamera.gameObject.SetActive(true);
-        GameManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
         playerController.enabled = true;
-        GameManager.instance.playerHealthUI.SetActive(true);
-        GameManager.instance.playerSprintUI.SetActive(true);
+        UIManager.instance.playerHealthUI.SetActive(true);
+        UIManager.instance.playerSprintUI.SetActive(true);
 
         yield return new WaitForSeconds(lineDuration);
 
-        GameManager.instance.LoadNextScene(sceneName);
+        SceneFlowManager.instance.LoadNextScene(sceneName);
     }
 }

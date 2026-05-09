@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 5401743595367283843}
   - component: {fileID: 1679048912730389968}
   m_Layer: 5
-  m_Name: GameManager
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -459,26 +459,14 @@ MonoBehaviour:
   menuPause: {fileID: 1480608213748643433}
   menuLose: {fileID: 2588225013688918530}
   menuEV: {fileID: 3099722896193074176}
-  cutSceneCamera: {fileID: 0}
-  playerCamera: {fileID: 0}
   uiRoot: {fileID: 2886157931525413486}
   player: {fileID: 0}
-  dialoguePanel: {fileID: 5280232127376622930}
-  playerHealthUI: {fileID: 1187897786192803360}
-  playerSprintUI: {fileID: 1207908898842006930}
   PathGate: {fileID: 0}
-  bossHPUI: {fileID: 7896972529964857662}
-  bossShieldUI: {fileID: 4750659936857083197}
-  blindFlashOverlay: {fileID: 585835876441102112}
-  playerHPBar: {fileID: 6087845407511827566}
-  playerSprintBar: {fileID: 3562385340664410253}
-  bossHPBar: {fileID: 6478662119655706559}
-  bossShieldBar: {fileID: 4668472279879482899}
-  dialogue: {fileID: 2930407161710044375}
   playerScript: {fileID: 0}
   playerEVSystem: {fileID: 0}
   isPaused: 0
   isEVMenuOpen: 0
+  bullManCompleted: 0
 --- !u!1 &870525400076037960
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,6 +1163,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5401743595367283843}
+  - {fileID: 2847838454877647056}
+  - {fileID: 4153973164509497853}
   - {fileID: 7297809527566582812}
   - {fileID: 7213771018613602461}
   - {fileID: 461734257894088150}
@@ -1534,6 +1524,57 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &3026766973967888998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4153973164509497853}
+  - component: {fileID: 4494297571776665659}
+  m_Layer: 5
+  m_Name: Scene Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4153973164509497853
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026766973967888998}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8270221901945882606}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4494297571776665659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026766973967888998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb0f2d6d4b4026458edd9e2966af032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  cutSceneCamera: {fileID: 0}
+  playerCamera: {fileID: 0}
 --- !u!1 &3099722896193074176
 GameObject:
   m_ObjectHideFlags: 0
@@ -4228,6 +4269,66 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &8369775473506736300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2847838454877647056}
+  - component: {fileID: 3969484697660079931}
+  m_Layer: 5
+  m_Name: UI Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2847838454877647056
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369775473506736300}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8270221901945882606}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3969484697660079931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369775473506736300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b1e637b5869e504dbc629e0bfcc3763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  dialoguePanel: {fileID: 5280232127376622930}
+  playerHealthUI: {fileID: 1187897786192803360}
+  playerSprintUI: {fileID: 1207908898842006930}
+  bossHPUI: {fileID: 7896972529964857662}
+  bossShieldUI: {fileID: 4750659936857083197}
+  playerHPBar: {fileID: 6087845407511827566}
+  playerSprintBar: {fileID: 3562385340664410253}
+  bossHPBar: {fileID: 6478662119655706559}
+  bossShieldBar: {fileID: 4668472279879482899}
+  blindFlashOverlay: {fileID: 585835876441102112}
+  dialogue: {fileID: 2930407161710044375}
 --- !u!1 &8507133179295863949
 GameObject:
   m_ObjectHideFlags: 0

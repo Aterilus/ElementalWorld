@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class WindCyclone : MonoBehaviour
 {
-    [SerializeField] int damageAmount;
-    [SerializeField] float moveSpeed;
-    [SerializeField] float lifeTime;
+    private int damageAmount;
+    private float moveSpeed;
+    private float lifeTime;
 
     Vector3 moveDire;
 
@@ -41,6 +41,13 @@ public class WindCyclone : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes the cyclone with the given parameters. Must be called immediately after instantiating the cyclone prefab.
+    /// </summary>
+    /// <param name="moveDirec">The direction in which the cyclone will move.</param>
+    /// <param name="moveeSpeed">The speed at which the cyclone will move.</param>
+    /// <param name="damageeAmount">The amount of damage the cyclone will deal upon hitting the player.</param>
+    /// <param name="lifeeTime">The lifetime of the cyclone before it is automatically destroyed.</param>
     public void Initialize(Vector3 moveDirec, float moveeSpeed, int damageeAmount, float lifeeTime)
     {
         moveDire = moveDirec.normalized;

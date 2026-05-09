@@ -13,7 +13,7 @@ public class LoadNextScene : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.instance.LoadNextScene(sceneName);
+            SceneFlowManager.instance.LoadNextScene(sceneName);
         }
     }
 }
