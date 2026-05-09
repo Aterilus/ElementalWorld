@@ -1,6 +1,6 @@
 🌍 Elemental World
 
-Elemental World is a 3D action RPG built in Unity, featuring modular boss systems, dynamic combat mechanics, and cinematic encounter design.
+Elemental World is a 3D action RPG built in Unity, featuring modular boss systems, dynamic combat mechanics, cinematic encounter design, and scalable gameplay architecture.
 This project focuses on building core gameplay systems first (Version 1) using placeholder visuals, with plans to expand into a full open-world experience.
 
 ⸻
@@ -45,7 +45,7 @@ This project focuses on building core gameplay systems first (Version 1) using p
 
 🌪️ Wind Boss
 
-The Wind Boss is the second major boss encounter, expanding on the core boss system with a more chaotic and ability-driven combat style.
+The Wind Boss is the second major boss encounter, expanding on the core boss system with a chaotic and ability-driven combat style.
 
 Features
 	•	Dynamic attack loop system (no fixed phases)
@@ -68,7 +68,7 @@ Technical Highlights
 	•	Coroutine-based attack execution for smooth chaining
 	•	Ability modularization via separate Ability Pack
 	•	Reusable combat interfaces (IDamage)
-	•	Integrated UI + camera control through GameManager
+	•	Integrated UI + camera control through manager systems
 	•	Fixed coroutine restart bug in death sequence
 
 Notes
@@ -77,37 +77,115 @@ Notes
 
 ⸻
 
+🌊 Water Boss
+
+The Water Boss expands the encounter system with advanced repositioning AI, clone mechanics, environmental pressure abilities, and cinematic encounter flow.
+
+Features
+	•	Full cinematic intro and ending cutscene system
+	•	Dynamic repositioning combat AI
+	•	Randomized modular move pool
+	•	Mirage Split clone system with independent clone AI
+	•	Secondary Mirage Split HP system
+	•	Exit gate spawning after boss defeat
+	•	Integrated manager-based UI and scene flow systems
+
+Implemented Abilities
+	•	Hydro Snipe
+	•	Water Prison
+	•	Acid Wave
+	•	Tidal Pull
+	•	Depth Charge
+	•	Water Bubble Shield
+	•	Mirage Split
+	•	Phase Swim
+
+Mirage Split System
+	•	Clone-specific AI movement and attacks
+	•	Independent clone HP system
+	•	Separate Mirage Split boss HP bar
+	•	Clone repositioning around the player using NavMesh
+	•	Coroutine-driven attack rhythm system
+
+Technical Highlights
+	•	Advanced coroutine-driven boss sequencing
+	•	Interface-driven UI updates (IHealthUI)
+	•	Interface-based cutscene structure (ICutscene)
+	•	Refactored architecture:
+	•	GameManager
+	•	UIManager
+	•	SceneFlowManager
+	•	Reusable modular ability pack architecture
+	•	NavMesh-based roaming and repositioning systems
+
+Notes
+	•	Uses placeholder visuals for all Water Boss abilities
+	•	Additional Blender animations and polish planned for Version 1.5+
+	•	Some Water Boss abilities still require damage tuning and polish passes
+
+⸻
+
 ⚔️ Combat System
 	•	Raycast-based player attack system
 	•	Interface-driven architecture:
 	•	IDamage for damage handling
 	•	IHeal for healing mechanics
+	•	IHealthUI for reusable HP UI updates
+	•	ICutscene for reusable cutscene systems
 	•	Modular design for reusable enemy/boss interactions
 
 ⸻
 
 🎬 Cutscene System
-	•	Triggered after boss defeat
+	•	Triggered before and after boss encounters
 	•	Player control disabling
 	•	Camera switching (Player → Cutscene camera)
 	•	Dialogue sequence system
 	•	Scene transition integration
+	•	Coroutine-driven cinematic sequences
+
+⸻
+
+🧩 Manager Architecture
+
+The project now uses separated manager systems for cleaner architecture and scalability.
+
+🕹️ GameManager
+	•	Game state handling
+	•	Pause system
+	•	Player menu systems
+	•	Global gameplay state management
+
+🖥️ UIManager
+	•	Player HP and Sprint UI
+	•	Boss HP systems
+	•	Dialogue UI
+	•	UI visibility management
+
+🌍 SceneFlowManager
+	•	Scene transitions
+	•	Gate systems
+	•	Scene-loaded setup
+	•	Boss flow and transition handling
 
 ⸻
 
 🌍 World Structure
 	•	Refuge Town (hub area)
 	•	Open World scene (in progress)
+	•	Elemental boss arenas
 	•	Gateway system between scenes
 
 ⸻
 
 🔄 Scene Management
-	•	Centralized scene loading via GameManager
+	•	Manager-driven scene loading flow
 	•	Trigger-based scene transitions
 	•	Clean separation between:
-	•	Core systems (GameManager)
-	•	Interaction triggers (gateways)
+	•	Game systems
+	•	UI systems
+	•	Scene systems
+	•	Boss encounter systems
 
 ⸻
 
@@ -115,19 +193,21 @@ Notes
 	•	State-driven AI systems (phase-based + ability-based)
 	•	Coroutine-based attack sequencing and cutscenes
 	•	Modular boss architecture using Ability Packs
-	•	Event-driven mechanics (shield break → phase change)
-	•	Clean separation of systems:
-	•	AI
-	•	Combat
-	•	UI
-	•	Scene Management
+	•	Event-driven mechanics
+	•	Interface-driven architecture
+	•	Manager-based system organization
+	•	NavMesh-driven repositioning AI
+	•	Reusable combat and UI systems
 
 ⸻
 
 ⚠️ Known Issues / Improvements (Planned)
-	•	Wall of Light healing behavior tuning
-	•	Shield damage feedback + UI improvements
-	•	Some attack prefabs persist in scene (cleanup needed)
+	•	Water Boss death timing and exit gate spawn delay
+	•	Some Water Boss abilities inconsistently damage the player
+	•	Solaris blinding flash overlay can remain active during dialogue
+	•	Wind Boss return gate flow needs verification
+	•	Additional visual polish and VFX tuning
+	•	Placeholder animations still in use
 	•	Spawn point adjustments for better ground alignment
 
 ⸻
@@ -135,11 +215,17 @@ Notes
 🚀 Future Development (Version 2)
 	•	Expanded open world
 	•	Additional elemental bosses:
-	•	Fire, Ice, Lightning, Earth, Wind
+	•	Fire
+	•	Ice
+	•	Lightning
+	•	Earth
+	•	Dark Boss
 	•	Advanced boss behaviors and patterns
 	•	Improved visuals and animations (Blender integration)
 	•	Player progression system (stats / abilities)
 	•	Environmental storytelling and world-building
+	•	Roaming calamity systems
+	•	Dynamic world events
 
 ⸻
 
@@ -155,13 +241,17 @@ Notes
 
 This project is being developed as a structured learning and portfolio piece, focusing on:
 	•	Strong gameplay systems
-	•	Clean and scalable code architecture
+	•	Scalable architecture
+	•	Clean and reusable code structure
+	•	Modular boss encounter design
 	•	Iterative development (Version 1 → Version 2)
 
 ⸻
 
 📊 Status
 	•	Version 1 Core Loop Complete
-	•	Boss System Expanded (Solaris + Wind Boss)
+	•	Boss System Expanded (Solaris + Wind Boss + Water Boss)
+	•	Manager Architecture Refactor Complete
+	•	Cutscene System Expanded
 	•	Expanding World + Systems
-	•	Moving into full game structure
+	•	Beginning Lightning Boss implementation
