@@ -18,6 +18,10 @@ public class SolarRainStrike : MonoBehaviour
         StartCoroutine(StrikeRoutine());
     }
 
+    /// <summary>
+    /// Handles the entire strike sequence: showing warnings, animating the strike, applying damage, and cleaning up.
+    /// </summary>
+    /// <returns>An IEnumerator for the coroutine.</returns>
     IEnumerator StrikeRoutine()
     {
         warningVisuals.SetActive(true);

@@ -33,11 +33,20 @@ public class SolarisFlareTelegraph : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Triggers the flare telegraph sequence for the given player transform. This will spawn warning markers around the player, then after a delay, spawn damage zones that can harm the player.
+    /// </summary>
+    /// <param name="player">The transform of the player to target with the flare telegraph.</param>
     public void TriggerFlare(Transform player)
     {
         StartCoroutine(FlareSequence(player));
     }
 
+    /// <summary>
+    /// Handles the entire flare sequence: spawning warning markers, waiting for the warning duration, then spawning damage zones that can harm the player.
+    /// </summary>
+    /// <param name="player">The transform of the player to target with the flare telegraph.</param>
+    /// <returns>An IEnumerator for the coroutine.</returns>
    IEnumerator FlareSequence(Transform player)
     {
         List<Vector3> positions = new List<Vector3>();
