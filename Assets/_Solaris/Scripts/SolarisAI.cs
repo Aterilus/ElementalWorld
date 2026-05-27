@@ -115,15 +115,13 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
 
     Coroutine phaseRoutine;
 
-    private void Awake()
-    {
-        UIManager.instance.bossHPUI.gameObject.SetActive(true);
-        if (wallOfLight != null) { wallOfLight.OnShieldBroken += OnWallBroken; }
-        if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        UIManager.instance.bossHPUI.gameObject.SetActive(true);
+        if (wallOfLight != null) { wallOfLight.OnShieldBroken += OnWallBroken; }
+        if (player == null) { player = GameManager.instance.player; }
+
         hpOrig = hp;
         UpdateHPUI();
 
@@ -572,11 +570,11 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
     /// <returns></returns>
     public IEnumerator EndCutscene()
     {
-        SceneFlowManager.instance.cutSceneCamera = solarisCutSceneCamera;
+        SceneFlowManager.instance.cutsceneCamera = solarisCutSceneCamera;
 
         UIManager.instance.bossHPUI.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(false);
         UIManager.instance.playerSprintUI.gameObject.SetActive(false);
 
@@ -602,7 +600,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
             playerControls.enabled = true;
         }
 
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(true);
         UIManager.instance.playerSprintUI.gameObject.SetActive(true);

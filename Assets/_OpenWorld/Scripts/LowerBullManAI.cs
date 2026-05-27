@@ -39,23 +39,23 @@ public class LowerBullManAI : MonoBehaviour, IDamage
     bool isAttacking;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
         hpOrig = hp;
 
         attackCooldown = attackMaxCooldown;
         slashAttackCooldown = slashDamageAmount;
         startingPos = transform.position;
+
+        if (player == null)
+        {
+            player = GameManager.instance.player;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-
         if (isAttacking)
         {
             return;

@@ -54,7 +54,7 @@ public class WaterBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [System.Obsolete]
-    void Awake()
+    void Start()
     {
         hpOrig = hp;
         UpdateHPUI();
@@ -71,11 +71,7 @@ public class WaterBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
 
         if (player == null)
         {
-            GameObject plyr = GameObject.FindGameObjectWithTag("Player");
-            if (plyr != null)
-            {
-                player = plyr;
-            }
+            player = GameManager.instance.player;
         }
 
         StartCoroutine(StartCutscene());
@@ -113,10 +109,10 @@ public class WaterBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
 
     public IEnumerator StartCutscene()
     {
-        SceneFlowManager.instance.cutSceneCamera = cutsceneCamera;
+        SceneFlowManager.instance.cutsceneCamera = cutsceneCamera;
         UIManager.instance.bossHPUI.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(false);
         UIManager.instance.playerSprintUI.gameObject.SetActive(false);
 
@@ -144,7 +140,7 @@ public class WaterBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
             playerControls.enabled = true;
         }
 
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(true);
         UIManager.instance.playerSprintUI.gameObject.SetActive(true);
@@ -160,11 +156,11 @@ public class WaterBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
 
     public IEnumerator EndCutscene()
     {
-        SceneFlowManager.instance.cutSceneCamera = cutsceneCamera;
+        SceneFlowManager.instance.cutsceneCamera = cutsceneCamera;
 
         UIManager.instance.bossHPUI.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(false);
         UIManager.instance.playerSprintUI.gameObject.SetActive(false);
 
@@ -192,7 +188,7 @@ public class WaterBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
             playerControls.enabled = true;
         }
 
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(true);
         UIManager.instance.playerSprintUI.gameObject.SetActive(true);

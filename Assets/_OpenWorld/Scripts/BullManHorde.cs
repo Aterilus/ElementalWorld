@@ -28,11 +28,11 @@ public class BullManHorde : MonoBehaviour
     bool eventCompleted;
     bool bossPhaseStarted;
 
-   void Awake()
+   void Start()
     {
         if (cutSceneCamera != null)
         {
-            SceneFlowManager.instance.cutSceneCamera = cutSceneCamera;
+            SceneFlowManager.instance.cutsceneCamera = cutSceneCamera;
         }
 
         if (exitGate != null)
@@ -77,7 +77,7 @@ public class BullManHorde : MonoBehaviour
         }
 
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
 
         UIManager.instance.dialoguePanel.gameObject.SetActive(true);
         UIManager.instance.dialogue.text = "You've stumbled upon my domain.";
@@ -93,7 +93,7 @@ public class BullManHorde : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         UIManager.instance.dialoguePanel.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         playerController.enabled = true;
 
@@ -167,7 +167,7 @@ public class BullManHorde : MonoBehaviour
 
         playerController.enabled = false;
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
 
         bossBullManPrefab.transform.position = bossSpawnPoint.position;
         bossBullManPrefab.SetActive(true);
@@ -188,7 +188,7 @@ public class BullManHorde : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         UIManager.instance.dialoguePanel.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         playerController.enabled = true;
 

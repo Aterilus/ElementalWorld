@@ -7,7 +7,7 @@ public class SceneFlowManager : MonoBehaviour
 
     public GameObject PathGate;
 
-    [SerializeField] public Camera cutSceneCamera;
+    [SerializeField] public Camera cutsceneCamera;
     [SerializeField] public Camera playerCamera;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

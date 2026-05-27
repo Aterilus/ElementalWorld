@@ -33,7 +33,7 @@ public class WaterMinionAI : MonoBehaviour, IDamage, IHealthUI
     Vector3 startPos;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
         startPos = transform.position;
 
@@ -45,10 +45,9 @@ public class WaterMinionAI : MonoBehaviour, IDamage, IHealthUI
             agent = GetComponent<NavMeshAgent>();
         }
 
-        GameObject plyr = GameObject.FindGameObjectWithTag("Player");
-        if (plyr != null)
+        if (player == null)
         {
-            player = plyr.transform;
+            player = GameManager.instance.player.transform;
         }
     }
 

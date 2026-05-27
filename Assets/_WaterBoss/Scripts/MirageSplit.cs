@@ -34,7 +34,7 @@ public class MirageSplit : MonoBehaviour, IDamage, IHealthUI
 
     GameObject cloneHydroSnipePrefab;
 
-    private void Awake()
+    private void Start()
     {
         if (hpRoot != null)
         {

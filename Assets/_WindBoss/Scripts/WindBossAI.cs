@@ -53,14 +53,14 @@ public class WindBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
     bool introStarted;
     bool bossDied;
 
-    private void Awake()
+    private void Start()
     {
         hpOrig = health;
         UpdateHPUI();
 
         if (player == null)
         {
-            player = GameObject.FindWithTag("Player");
+            player = GameManager.instance.player;
         }
         if (movesSet == null)
         {
@@ -97,7 +97,7 @@ public class WindBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
     /// <returns>An enumerator that performs the introductory cutscene when executed in a coroutine.</returns>
     public IEnumerator StartCutscene()
     {
-        SceneFlowManager.instance.cutSceneCamera = cutsceneCamera;
+        SceneFlowManager.instance.cutsceneCamera = cutsceneCamera;
 
         while (!introStarted)
         {
@@ -105,7 +105,7 @@ public class WindBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
 
             UIManager.instance.bossHPUI.SetActive(false);
             SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-            SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+            SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
             UIManager.instance.playerHealthUI.gameObject.SetActive(false);
             UIManager.instance.playerSprintUI.gameObject.SetActive(false);
 
@@ -133,7 +133,7 @@ public class WindBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
                 playerControls.enabled = true;
             }
 
-            SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+            SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
             SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
             UIManager.instance.playerHealthUI.gameObject.SetActive(true);
             UIManager.instance.playerSprintUI.gameObject.SetActive(true);
@@ -153,11 +153,11 @@ public class WindBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
     /// <returns>An enumerator that performs the death sequence when executed in a coroutine.</returns>
     public IEnumerator EndCutscene()
     {
-        SceneFlowManager.instance.cutSceneCamera = cutsceneCamera;
+        SceneFlowManager.instance.cutsceneCamera = cutsceneCamera;
 
         UIManager.instance.bossHPUI.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(false);
         UIManager.instance.playerSprintUI.gameObject.SetActive(false);
 
@@ -185,7 +185,7 @@ public class WindBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
             playerControls.enabled = true;
         }
 
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
         UIManager.instance.playerHealthUI.gameObject.SetActive(true);
         UIManager.instance.playerSprintUI.gameObject.SetActive(true);

@@ -33,10 +33,10 @@ public class CutSceneTrigger : MonoBehaviour
             }
         }
 
-        SceneFlowManager.instance.cutSceneCamera = cutSceneCamera;
+        SceneFlowManager.instance.cutsceneCamera = cutSceneCamera;
 
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(false);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(true);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(true);
         playerController.enabled = false;
         UIManager.instance.playerHealthUI.SetActive(false);
         UIManager.instance.playerSprintUI.SetActive(false);
@@ -52,7 +52,7 @@ public class CutSceneTrigger : MonoBehaviour
         UIManager.instance.dialoguePanel.SetActive(false);
 
         SceneFlowManager.instance.playerCamera.gameObject.SetActive(true);
-        SceneFlowManager.instance.cutSceneCamera.gameObject.SetActive(false);
+        SceneFlowManager.instance.cutsceneCamera.gameObject.SetActive(false);
         playerController.enabled = true;
         UIManager.instance.playerHealthUI.SetActive(true);
         UIManager.instance.playerSprintUI.SetActive(true);

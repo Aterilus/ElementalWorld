@@ -24,7 +24,7 @@ public class WallOfLight : MonoBehaviour
 
     IHeal solarisHealable;
 
-    private void Awake()
+    private void Start()
     {
         solarisHealable = solaris as IHeal;
         currentShieldHP = maxShieldHP;

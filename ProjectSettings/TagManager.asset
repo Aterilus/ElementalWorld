@@ -7,6 +7,7 @@ TagManager:
   - SpawnPoint
   - CutSceneCamera
   - WaterBoss
+  - PlayerCamera
   layers:
   - Default
   - TransparentFX

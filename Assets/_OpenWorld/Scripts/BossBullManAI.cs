@@ -35,16 +35,16 @@ public class BossBullManAI : MonoBehaviour, IDamage
     {
         hpOrig = hp;
         UpdateHPUI();
+
+        if (player == null)
+        {
+            player = GameManager.instance.player;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-
         if (isAttacking) { return; }
 
         playerDire = player.transform.position - transform.position;

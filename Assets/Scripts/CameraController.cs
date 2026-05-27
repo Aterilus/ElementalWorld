@@ -14,6 +14,10 @@ public class CameraController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        if (player != null)
+        {
+            player = GameManager.instance.player.transform;
+        }
     }
 
     // Update is called once per frame

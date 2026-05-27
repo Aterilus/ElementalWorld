@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public bool isPaused;
     public bool isEVMenuOpen;
     public bool bullManCompleted;
+    public bool playerIsMarked;
 
     string sceneName;
 

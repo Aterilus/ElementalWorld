@@ -119,6 +119,67 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &221413860
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 735.0558
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 717.7628
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425235214806645291, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6828227814961160776, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: m_Name
+      value: Lightning Boss Gate
+      objectReference: {fileID: 0}
+    - target: {fileID: 7972524646438489071, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: sceneName
+      value: LightningBossFight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
 --- !u!1001 &538260130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -173,7 +234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6828227814961160776, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
       propertyPath: m_Name
-      value: WaterBossGate
+      value: Water Boss Gate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -255,7 +316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6828227814961160776, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
       propertyPath: m_Name
-      value: WindBossGate
+      value: Wind Boss Gate
       objectReference: {fileID: 0}
     - target: {fileID: 7972524646438489071, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
       propertyPath: sceneName
@@ -462,7 +523,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6828227814961160776, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
       propertyPath: m_Name
-      value: Doorway
+      value: Refuge Doorway
+      objectReference: {fileID: 0}
+    - target: {fileID: 7972524646438489071, guid: c29dca74dc53a4d4a800c752bcafa148, type: 3}
+      propertyPath: sceneName
+      value: RefugeTown
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -583,7 +648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9178377175813267319, guid: b763ab0be37ef5542926d0692d6b3206, type: 3}
       propertyPath: m_Name
-      value: BullManExitGate
+      value: Bull Man Entrance Gate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -733,3 +798,4 @@ SceneRoots:
   - {fileID: 1652480017}
   - {fileID: 604082008}
   - {fileID: 538260130}
+  - {fileID: 221413860}

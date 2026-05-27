@@ -54,12 +54,7 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
 
     private Coroutine staminaRegenCoroutine;
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
-
-    void Start()
+    private void Start()
     {
         hpOrig = hp;
         UpdatePlayerHPUI();
@@ -67,7 +62,10 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
         currentStamina = maxStamina;
 
         speedOrig = speed;
+
+        DontDestroyOnLoad(this);
     }
+
 
     // Update is called once per frame
     void Update()
