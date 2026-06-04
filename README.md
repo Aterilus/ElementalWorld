@@ -124,6 +124,49 @@ Notes
 	•	Some Water Boss abilities still require damage tuning and polish passes
 
 ⸻
+⚡Lightning Boss
+
+• Fully implemented Lightning Boss encounter featuring dynamic attack selection, conditional mechanics, and multi-layered combat interactions.
+
+• Implemented Moves:
+• Arc Spear
+• Thunder Strike
+• Voltage Mines
+• Magnetic Pull
+• Storm Surge
+• Ion Crash
+• EMP Pulse
+• Static Detonation
+
+• Implemented Mechanics:
+• Static Mark system
+• Mine tracking and detonation system
+• Conditional attack logic
+• Telegraph and warning indicators
+• Cooldown management
+• Randomized move selection AI
+
+• Encounter Features:
+• Intro cutscene
+• End cutscene
+• Boss HP UI integration
+• Death sequence
+• Exit gate spawning
+• Scene Flow Manager integration
+• Modular Ability Pack architecture
+
+• Lightning Boss Design:
+• Uses thunder-based attacks, area denial, player marking mechanics, and mine interactions to create a chaotic and aggressive combat experience.
+• Conditional abilities allow the boss to react to player status and battlefield conditions.
+
+🔧 Planned Version 1.5 Polish
+• Thunderstorm cloud visuals
+• Lightning environment effects
+• Improved attack VFX
+• Ion Crash flight/slam animation
+• EMP Pulse charge-up visuals
+• Enhanced telegraphs and cinematic presentation
+⸻
 
 ⚔️ Combat System
 	•	Raycast-based player attack system
