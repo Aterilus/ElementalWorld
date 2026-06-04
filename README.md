@@ -124,6 +124,7 @@ Notes
 	•	Some Water Boss abilities still require damage tuning and polish passes
 
 ⸻
+
 ⚡Lightning Boss
 
 • Fully implemented Lightning Boss encounter featuring dynamic attack selection, conditional mechanics, and multi-layered combat interactions.
