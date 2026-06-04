@@ -294,7 +294,7 @@ This project is being developed as a structured learning and portfolio piece, fo
 
 📊 Status
 	•	Version 1 Core Loop Complete
-	•	Boss System Expanded (Solaris + Wind Boss + Water Boss)
+	•	Boss System Expanded (Solaris + Wind Boss + Water Boss + Lightning Boss)
 	•	Manager Architecture Refactor Complete
 	•	Cutscene System Expanded
 	•	Expanding World + Systems
