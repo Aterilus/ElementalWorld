@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
+public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback, IFreeze
 {
     [Header("---------Player Components----------")]
     [SerializeField] CharacterController controller;
@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
     [SerializeField] float staminaRegenRate;
     [SerializeField] float staminaRegenDelay;
 
+    [Header("---------Dodge Components---------")]
+    [SerializeField] float dodgeSpeed;
+    [SerializeField] float dodgeDuration;
+    [SerializeField] float dodgeCooldown; 
+
     [Header("----------Player Attack----------")]
     [SerializeField] public int attackDamage;
     [SerializeField] int attackDistance;
@@ -39,18 +44,25 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
     int hpOrig;
     int jumpCount;
     int speedOrig;
+    int originalMoveSpeed;
+    int originalSprintSpeed;
     
     float currentStamina;
     float combatTimer;
     float attackTimer;
+    float freezeTimer;
 
     Vector3 moveDir;
     Vector3 playerVel;
     Vector3 knockbackVelocity;
+    Vector3 dodgeDirection;
 
     bool isSprinting;
     bool isInCombat;
     bool isBlinded;
+    bool isFrozen;
+    bool isDodging;
+    bool canDodge;
 
     private Coroutine staminaRegenCoroutine;
 
@@ -61,7 +73,12 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
 
         currentStamina = maxStamina;
 
+        transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+
         speedOrig = speed;
+
+        canDodge = true;
+        isDodging = false;
 
         DontDestroyOnLoad(this);
     }
@@ -70,7 +87,25 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
     // Update is called once per frame
     void Update()
     {
+        if (isFrozen)
+        {
+            freezeTimer -= Time.deltaTime;
+
+            if (freezeTimer <= 0)
+            {
+                Unfreeze();
+            }
+
+            return;
+        }
+
         Movement();
+
+        if (Input.GetButtonDown("Dodge") && dodgeCooldown > 0)
+        {
+            Dodge();
+        }
+
         Sprint();
         HandleSprintUI();
         HandleCombatState();
@@ -84,6 +119,8 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
     /// responsive movement. The player's grounded state is used to reset jump count and vertical velocity.</remarks>
     void Movement()
     {
+        if (isDodging) { return; }
+
         attackTimer += Time.deltaTime;
 
         if (knockbackVelocity.magnitude > 0.1f)
@@ -180,6 +217,45 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
         UpdatePlayerSprintUI();
     }
 
+    void Dodge()
+    {
+        if (!canDodge || isDodging) { return; }
+
+        dodgeDirection = moveDir;
+
+        if (dodgeDirection == Vector3.zero)
+        {
+            dodgeDirection = transform.forward;
+        }
+
+        dodgeDirection.Normalize();
+
+        StartCoroutine(DodgeRoutine());
+    }
+
+    IEnumerator DodgeRoutine()
+    {
+        isDodging = true;
+        canDodge = false;
+
+        float timer = 0f;
+
+        while (timer < dodgeDuration)
+        {
+            controller.Move(dodgeDirection * dodgeSpeed * Time.deltaTime);
+
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        isDodging = false;
+
+        yield return new WaitForSeconds(dodgeCooldown);
+
+        canDodge = true;
+    }
+
     /// <summary>
     /// Waits for a specified delay, then gradually restores the player's stamina over time until it reaches the maximum
     /// value.
@@ -241,6 +317,12 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
             if (damage != null)
             {
                 damage.TakeDamage(attackDamage);
+            }
+
+            IDamage dmg = hit.collider.GetComponentInParent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(attackDamage);
             }
         }
     }
@@ -377,5 +459,31 @@ public class PlayerController : MonoBehaviour, IDamage, IHeal, IKnockback
         UIManager.instance.blindFlashOverlay.gameObject.SetActive(false);
 
         isBlinded = false;
+    }
+
+    public void Freeze(float duration)
+    {
+        if (isFrozen)
+        {
+            freezeTimer = duration;
+            return;
+        }
+
+        isFrozen = true;
+
+        originalMoveSpeed = speed;
+        originalSprintSpeed = speed * sprintMod;
+
+        speed = 0;
+
+        freezeTimer = duration;
+    }
+
+    public void Unfreeze()
+    {
+        isFrozen = false;
+        speed = originalMoveSpeed;
+
+        freezeTimer = 0;
     }
 }

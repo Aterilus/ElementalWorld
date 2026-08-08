@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LightningAbilityPack : MonoBehaviour
 {
-    [SerializeField] Camera cutsceneCamera;
     [SerializeField] GameObject player;
     [SerializeField] GameObject markVisualPrefab;
 
@@ -109,11 +108,6 @@ public class LightningAbilityPack : MonoBehaviour
         if (player == null)
         {
             player = GameManager.instance.player;
-        }
-
-        if (cutsceneCamera != null)
-        {
-            SceneFlowManager.instance.cutsceneCamera = cutsceneCamera;
         }
 
         arcSpearCoolDown = 0f;

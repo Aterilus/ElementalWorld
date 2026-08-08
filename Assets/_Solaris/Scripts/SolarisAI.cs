@@ -179,9 +179,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void TickTeleport()
     {
         if (teleportTimer <= 0)
@@ -191,9 +188,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void TeleportToRandomPoint()
     {
         int index = Random.Range(0, teleportPoints.Length);
@@ -203,10 +197,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
     /// =================================
     //  HP Methods
     /// =================================
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="damage"></param>
+    
     public void TakeDamage(int damage)
     {
         if (currentPhase == SolarisPhases.Phase2 && wallOfLightActive && wallOfLight != null)
@@ -226,10 +217,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="healAmount"></param>
     public void Heal(int healAmount)
     {
         hp = Mathf.Min(hp, hpOrig);
@@ -243,10 +230,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
     /// =================================
     //  Move Methods
     /// =================================
-    
-    /// <summary>
-    /// 
-    /// </summary>
+
     void ShootFlareAttack()
     {
         SolarisFlareTelegraph flareInstance = Instantiate(flareTelegraphPrefab, player.transform.position, Quaternion.identity);
@@ -254,10 +238,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         flareAttackCooldown = flareAttackMaxCooldown;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="player"></param>
     void FireDagger(Transform player)
     {
         DaggerProjectile daggerInstance = Instantiate(daggerPrefab, daggerSpawnPoint.position, daggerSpawnPoint.rotation);
@@ -270,10 +250,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     IEnumerator UseLightPulse()
     {
         isUsingLightPulse = true;
@@ -317,9 +293,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         isUsingLightPulse = false;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void UseExplodingLight()
     {
         int orbCount = Random.Range(minOrbCount, maxOrbCount);
@@ -346,10 +319,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         explodingLightCooldown = explodingMaxCooldown;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     IEnumerator UseLightBeam()
     {
         float timer = 0;
@@ -402,9 +371,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         isUsingBeam = false;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void UseBlindingLight()
     {
         float dist = Vector3.Distance(transform.position, player.transform.position);
@@ -421,10 +387,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         blindFlashCooldown = blindFlashMaxCooldown;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     IEnumerator UseSolarRain()
     {
         isUsingSolarRain = true;
@@ -450,10 +412,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         isUsingSolarRain = false;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     IEnumerator TeleportToCenterThenUseLightPulse()
     {
         transform.position = arenaCenter.transform.position;
@@ -468,10 +426,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
     //  Wall of Light Methods
     /// =================================
 
-
-    /// <summary>
-    /// 
-    /// </summary>
     void ActivateWallOfLight()
     {
         if (wallPermanentlyDisabled) { return; }
@@ -486,9 +440,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void DeactivateWallOfLight()
     {
         wallOfLightActive = false;
@@ -499,18 +450,11 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public void OnWallBroken()
     {
         EnterPhase3();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="incomingDamage"></param>
     public void ApplyChipDamageDuringWall(float incomingDamage)
     {
         float chipDamage = incomingDamage * wallDamagePassThroughMultiplier;
@@ -529,9 +473,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
     //  Misc. Methods
     /// =================================
 
-    /// <summary>
-    /// 
-    /// </summary>
     void OnSolarisDefeated()
     {
         fightActive = false;
@@ -551,9 +492,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         StartCoroutine(EndCutscene());
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public void UpdateHPUI()
     {
         UIManager.instance.bossHPBar.fillAmount = (float)hp / hpOrig;
@@ -564,10 +502,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         yield return null;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     public IEnumerator EndCutscene()
     {
         SceneFlowManager.instance.cutsceneCamera = solarisCutSceneCamera;
@@ -609,10 +543,7 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
     /// =================================
     //  Phase Methods
     /// =================================
-    
-    /// <summary>
-    /// 
-    /// </summary>
+
     void CheckPhaseTransitions()
     {
         float phase2HP = hpOrig * phase2HealthThreshold;
@@ -623,9 +554,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void EnterPhase2()
     {
         enterPhase2 = true;
@@ -634,9 +562,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         StartPhaseLoop(SolarisPhases.Phase2);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void EnterPhase3()
     {
         currentPhase = SolarisPhases.Phase3;
@@ -647,10 +572,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         StartPhaseLoop(SolarisPhases.Phase3);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="phase"></param>
     void StartPhaseLoop(SolarisPhases phase)
     {
         if (phaseRoutine != null)
@@ -660,11 +581,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         phaseRoutine = StartCoroutine(PhaseLoop(phase));
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="phase"></param>
-    /// <returns></returns>
     IEnumerator PhaseLoop(SolarisPhases phase)
     {
         switch (phase)
@@ -684,10 +600,6 @@ public class SolarisAI : MonoBehaviour, IDamage, IHeal, IHealthUI, ICutscene
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     IEnumerator Phase1Loop()
     {
         while (fightActive && currentPhase == SolarisPhases.Phase1)

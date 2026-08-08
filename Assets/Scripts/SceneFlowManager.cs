@@ -23,7 +23,7 @@ public class SceneFlowManager : MonoBehaviour
 
         if (playerCamera == null)
         {
-            playerCamera = GameManager.instance.player.GetComponentInChildren<Camera>(true);
+            playerCamera = Camera.main;
         }
     }
 

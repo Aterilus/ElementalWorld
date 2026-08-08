@@ -55,6 +55,11 @@ public class LightningBossAI : MonoBehaviour, IDamage, IHealthUI, ICutscene
             player = GameManager.instance.player;
         }
 
+        if (cutsceneCamera != null)
+        {
+            SceneFlowManager.instance.cutsceneCamera = cutsceneCamera;
+        }
+
         StartCoroutine(StartCutscene());
     }
 
